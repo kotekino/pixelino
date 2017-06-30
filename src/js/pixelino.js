@@ -211,7 +211,7 @@ var pixelino = function () {
                 }
 
                 // schedule last execution
-                skipDelayExecution = setTimeout(function () { printAll(true) });
+                skipDelayExecution = setTimeout(function () { printAll(true); });
 
                 return;
             }
@@ -237,7 +237,7 @@ var pixelino = function () {
                 {
                     loadZone(absX, absY, zone);
                 }
-            })
+            });
         }
     }
 
@@ -274,8 +274,8 @@ var pixelino = function () {
 
                     // general callback
                     isAllLoaded(callback);
-                }
-            })
+                };
+            });
         }
         else
         {
@@ -307,15 +307,14 @@ var pixelino = function () {
 
             // reset loading
             $("#info").html('');
-        }
+        };
     }
 
     // check for all loaded
     function isAllLoaded(callback) {
         var result = true;
         zones.forEach(function (item, index) {
-            if (zoneLoaded[zones[index].zone] != true)
-            {
+            if (zoneLoaded[zones[index].zone] !== true) {
                 result = false;
                 return false;
             }
@@ -379,8 +378,8 @@ var pixelino = function () {
         // get real center
         var canvasCenterX = Math.round(canvasWidth / 2);
         var canvasCenterY = Math.round(canvasHeight / 2);
-        var absoluteCenterX = canvasCenterX - (centerX * zoom);
-        var absoluteCenterY = canvasCenterY + (centerY * zoom);
+        var absoluteCenterX = canvasCenterX - centerX * zoom;
+        var absoluteCenterY = canvasCenterY + centerY * zoom;
 
         // print center coordinates
         printVLine(absoluteCenterX, canvasHeight, true);
@@ -392,15 +391,15 @@ var pixelino = function () {
             printVLine(iCounter, canvasHeight, false);
         }
         // vertical negative lines
-        for (var iCounter = absoluteCenterX; iCounter > 0; iCounter = iCounter - zoom) {
+        for (iCounter = absoluteCenterX; iCounter > 0; iCounter = iCounter - zoom) {
             printVLine(iCounter, canvasHeight, false);
         }
         // horizontal negative lines
-        for (var iCounter = absoluteCenterY; iCounter <= canvasHeight; iCounter = iCounter + zoom) {
+        for (iCounter = absoluteCenterY; iCounter <= canvasHeight; iCounter = iCounter + zoom) {
             printHLine(iCounter, canvasWidth, false);
         }
         // horizontal positive lines
-        for (var iCounter = absoluteCenterY; iCounter > 0; iCounter = iCounter - zoom) {
+        for (iCounter = absoluteCenterY; iCounter > 0; iCounter = iCounter - zoom) {
             printHLine(iCounter, canvasWidth, false);
         }
     };
@@ -427,26 +426,25 @@ var pixelino = function () {
     var printSelectedPixel = function (x, y) {
 
         var ctx = canvasElementSelection.getContext("2d");
-        
+
         // rect
-        if (mode == "draw") {
+        if (mode === "draw") {
             ctx.clearRect(0, 0, canvasWidth, canvasHeight);
             ctx.fillStyle = "rgba(" + currentColor.red + ", " + currentColor.green + ", " + currentColor.blue + ", " + currentColor.opacity + ")";
             ctx.fillRect(x, y, zoom, zoom);
         }
-        else
-        {
+        else {
             ctx.clearRect(0, 0, canvasWidth, canvasHeight);
             ctx.fillStyle = "rgba(0,0,0,0.05)";
             ctx.fillRect(x, y, zoom, zoom);
         }
-    }
+    };
 
     // clear selected pixel
     var clearSelectedPixel = function () {
         var ctx = canvasElementSelection.getContext("2d");
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    }
+    };
 
     // render V line
     var printVLine = function (x, height, highlight) {
@@ -493,8 +491,8 @@ var pixelino = function () {
 
     // get zoom factor
     var getZoomPercentage = function () {
-        return Math.round((zoom / 8) * 100) + "%";
-    }
+        return Math.round(zoom / 8 * 100) + "%";
+    };
 
     // transform coordinates from canvas to absolute x
     var getAbsoluteX = function (x) {
@@ -520,7 +518,7 @@ var pixelino = function () {
     var getCanvasX = function (x) {
         // get delta x
         var canvasCenterX = canvasWidth / 2;
-        var deltaX = canvasCenterX + ((x - centerX) * zoom) - zoom/2;
+        var deltaX = canvasCenterX + (x - centerX) * zoom - zoom/2;
         return Math.round(deltaX);
     };
 
@@ -528,7 +526,7 @@ var pixelino = function () {
     var getCanvasY = function (y) {
         // get delta y
         var canvasCenterY = canvasHeight / 2;
-        var deltaY = canvasCenterY - ((y - centerY) * zoom) - zoom / 2;
+        var deltaY = canvasCenterY - (y - centerY) * zoom - zoom / 2;
 
         return Math.round(deltaY);
     };
@@ -537,34 +535,33 @@ var pixelino = function () {
     var getZoneX = function (absoluteX) {
         var zoneX = Math.floor(absoluteX / zoneResolution) * zoneResolution;
         return zoneX;
-    }
+    };
 
     // get zone Y
     var getZoneY = function (absoluteY) {
         var zoneY = Math.floor(absoluteY / zoneResolution) * zoneResolution;
         return zoneY;
-    }
+    };
 
     // get zone
     var getZones = function () {
-        var left = (Math.floor(getAbsoluteX(0) / zoneResolution) * zoneResolution) - (zoneResolution);
-        var right = (Math.floor(getAbsoluteX(canvasWidth) / zoneResolution) * zoneResolution) + (zoneResolution);
-        var top = (Math.floor(getAbsoluteY(0) / zoneResolution) * zoneResolution) + (zoneResolution);
-        var bottom = (Math.floor(getAbsoluteY(canvasHeight) / zoneResolution) * zoneResolution) - (zoneResolution);
+        var left = Math.floor(getAbsoluteX(0) / zoneResolution) * zoneResolution - zoneResolution;
+        var right = Math.floor(getAbsoluteX(canvasWidth) / zoneResolution) * zoneResolution + zoneResolution;
+        var top = Math.floor(getAbsoluteY(0) / zoneResolution) * zoneResolution + zoneResolution;
+        var bottom = Math.floor(getAbsoluteY(canvasHeight) / zoneResolution) * zoneResolution - zoneResolution;
 
         var zones = [];
         for (var iCounterX = left; iCounterX <= right; iCounterX = iCounterX + zoneResolution) {
             for (var iCounterY = bottom; iCounterY <= top; iCounterY = iCounterY + zoneResolution) {
                 var newX = iCounterX;
                 var newY = iCounterY;
-                var zone = newX + "_" + newY;
                 var zone = { x: newX, y: newY, zone: zone };
 
                 zones.push(zone);
             }
         }
         return zones;
-    }
+    };
 
     // *********************************************************************
     // MOUSE AND INFO METHODS
@@ -584,7 +581,7 @@ var pixelino = function () {
 
         printSelectedPixel(getCanvasX(mouseAbsoluteX), getCanvasY(mouseAbsoluteY));
         printStatus(mouseAbsoluteX, mouseAbsoluteY);
-    }
+    };
 
     // mouse click or tap
     var mouseClickOrTap = function (ev) {
@@ -599,7 +596,7 @@ var pixelino = function () {
 
         printSelectedPixel(getCanvasX(mouseAbsoluteX), getCanvasY(mouseAbsoluteY));
         printStatus(mouseAbsoluteX, mouseAbsoluteY);
-    }
+    };
 
     // draw a pixel
     var setPixel = function (ev) {
@@ -616,7 +613,7 @@ var pixelino = function () {
         var zoneY = mouseZoneY;
 
         // submit pixel (mouseAbsoluteX, mouseAbsoluteY, mouseZoneX, mouseZoneY, currentColor)
-        if (mode == "draw") {
+        if (mode === "draw") {
 
             // if positive answer, then print pixel
             printPixel(getCanvasX(mouseX), getCanvasY(mouseY), currentColor.red, currentColor.green, currentColor.blue, currentColor.opacity);
@@ -629,14 +626,14 @@ var pixelino = function () {
                 contentType: "application/json",
                 success: function (responseData) {
 
-                    if (responseData != "reserved area")
+                    if (responseData !== "reserved area")
                     {
                         // reload image
                         loadZone(zoneX, zoneY, zoneX + "_" +zoneY);
                         hideAlert();
                     } else {
                         showOverlay(responseData);
-                        setTimeout(function () { hideAlert() }, 1000);
+                        setTimeout(function () { hideAlert(); }, 1000);
                     }
 
                 },
@@ -646,23 +643,23 @@ var pixelino = function () {
                 }
             });
         }
-    }
+    };
 
     // print status
     var printStatus = function() {
         $("#status").html("<p id=\"coord\">" + mouseAbsoluteX + ", " + mouseAbsoluteY + "</p><p id=\"zoom\">" + getZoomPercentage(zoom) + "</p>");
-    }
+    };
 
     // hide overlay alert
     var showOverlay = function (text) {
         $("#main_overlay").html("<div id=\"main_overlay_alert\"><p>" + text + "</p></div>");
         $("#main_overlay").show();
-    }
+    };
 
     // hide overlay alert
     var hideAlert = function () {
         $("#main_overlay").hide();
-    }
+    };
 
     // update url
     var updateUrl = function () {
@@ -670,7 +667,7 @@ var pixelino = function () {
             var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?x='+ centerX +'&y='+ centerY;
             window.history.pushState({ path: newurl }, '', newurl);
         }*/
-    }
+    };
 
     // ********************************************************
     // INTERFACE METHODS
@@ -678,10 +675,10 @@ var pixelino = function () {
     var printColors = function () {
         $.each(palette, function (index, value) {
             var selectedClass = "";
-            if (value == currentColor) selectedClass = "selected";
+            if (value === currentColor) selectedClass = "selected";
             $("#colors").append("<div class=\"button colors " + selectedClass + "\" style=\"background-color: rgba(" + value.red + "," + value.green + "," + value.blue + "," + value.opacity + ")\" class=\"button\" id=\"color_" + index + "\"></div>");
         });
-    }
+    };
 
     // init interface
     var initInterface = function () {
@@ -691,7 +688,7 @@ var pixelino = function () {
 
         // create toolbar element
         toolbarElement = document.createElement("div");
-        document.body.appendChild(toolbarElement)
+        document.body.appendChild(toolbarElement);
         toolbarElement.id = "toolbar_container";
         $("#toolbar_container").html("<div id=\"toolbar\"><div id=\"colors\"></div></div>");
 
@@ -700,33 +697,33 @@ var pixelino = function () {
 
         // create status element
         statusElement = document.createElement("div");
-        document.body.appendChild(statusElement)
+        document.body.appendChild(statusElement);
         statusElement.id = "status";
         $("#status").html("<p><span>POS: 0,0</span><span>ZOOM: 1</span></p>");
 
         // create info element
         infoElement = document.createElement("div");
-        document.body.appendChild(infoElement)
+        document.body.appendChild(infoElement);
         infoElement.id = "info";
 
         // create element and append to the body
         canvasElement = document.createElement("canvas");
-        document.body.appendChild(canvasElement)
+        document.body.appendChild(canvasElement);
         canvasElement.id = "canvas_pixels";
 
         // create element and append to the body
         canvasElementGrid = document.createElement("canvas");
-        document.body.appendChild(canvasElementGrid)
+        document.body.appendChild(canvasElementGrid);
         canvasElementGrid.id = "canvas_grid";
 
         // create element and append to the body
         canvasElementSelection = document.createElement("canvas");
-        document.body.appendChild(canvasElementSelection)
+        document.body.appendChild(canvasElementSelection);
         canvasElementSelection.id = "canvas_selection";
 
         // create element and append to the body
         mainOverlayElement = document.createElement("div");
-        document.body.appendChild(mainOverlayElement)
+        document.body.appendChild(mainOverlayElement);
         mainOverlayElement.id = "main_overlay";
 
         // assign color
@@ -745,8 +742,8 @@ var pixelino = function () {
         // clear selected pixel
         $("#status").mouseover(function () {
             clearSelectedPixel();
-        })
-    }
+        });
+    };
 
     // ********************************************************
     // PUBLIC METHODS
@@ -769,7 +766,7 @@ var pixelino = function () {
             refreshCanvas(true);
 
             // schdule print canvas next executions
-            setInterval(function () { if (!moving) printCanvas(true) }, printTimeout)
+            setInterval(function () { if (!moving) printCanvas(true); }, printTimeout);
 
             // assign mouse listeners
             canvasElementSelection.addEventListener("mousemove", mousePosition, false);
@@ -816,7 +813,7 @@ var pixelino = function () {
                 // prevent zoom (non-mac env)
                 if (e.ctrlKey) {
                     e.preventDefault();
-                };
+                }
 
                 var delta = 0;
                 if (typeof e.wheelDelta !== "undefined") {
@@ -828,12 +825,12 @@ var pixelino = function () {
                 }
 
                 pixelino.modifyZoom(delta);
-            })
+            });
 
             // tap or click
             mc.on("tap", function (ev) {
                 setPixel(ev);
-            })
+            });
 
             // pinch event
             mc.on("pinch", function (ev) {
@@ -858,6 +855,7 @@ var pixelino = function () {
                 $('html,body').css('cursor', 'pointer');
 
                 // force store center
+                pixelino.fixCenter();
                 pixelino.storeSettings();
                 moving = true;
             });
@@ -866,6 +864,7 @@ var pixelino = function () {
                 $('html,body').css('cursor', 'default');
 
                 // force store center
+                pixelino.fixCenter();
                 pixelino.storeSettings();
                 moving = false;
             });
@@ -885,10 +884,16 @@ var pixelino = function () {
             oldCenterY = centerY;
         },
 
+        // fix center to grid
+        fixCenter: function() {
+            centerX = Math.round(centerX);
+            centerY = Math.round(centerY);
+        },
+
         // set center
         setCenter: function (deltaX, deltaY) {
             // last movement stored
-            lastMovement = new Date().getTime()
+            lastMovement = new Date().getTime();
 
             // move center
             centerX = oldCenterX + deltaX / zoom;
@@ -923,7 +928,7 @@ var pixelino = function () {
         // increase / decrease zoom
         modifyZoom: function (deltaWheel) {
             // zoom
-            zoom = zoom + (deltaWheel * zoom / 20);
+            zoom = zoom + deltaWheel * zoom / 20;
 
             // prevent negative zoom
             if (zoom < 1) zoom = 1;
@@ -936,7 +941,7 @@ var pixelino = function () {
             refreshCanvas(false);
 
         }
-    }
+    };
 
 }();
 
