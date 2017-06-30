@@ -2,28 +2,31 @@
  * @pixelino.js
  * Javascript client for pixelino.kotekino.com
  *
- * MIT License
- *
- * Copyright (c) 2017 kotekino
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- * 
+ * The extra line between the end of the @file docblock
+ * and the file-closure is important.
+
+MIT License
+
+Copyright (c) 2017 kotekino
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
  */
 
 var pixelino = function () {
@@ -38,8 +41,8 @@ var pixelino = function () {
     var isLinux = navigator.platform.toUpperCase().indexOf('LINUX') !== -1;
 
     // urls
-    var API_URL_BASE = "http://pixelino.azurewebsites.net/api/";
-    //var API_URL_BASE = "http://localhost:58037/api/";
+    // var API_URL_BASE = "http://pixelino.azurewebsites.net/api/";
+    var API_URL_BASE = "http://localhost:58037/api/";
     var API_URL_ZONES = API_URL_BASE + "zones/";
     var API_URL_SET_PIXEL = "pixels";
 
@@ -626,9 +629,16 @@ var pixelino = function () {
                 contentType: "application/json",
                 success: function (responseData) {
 
-                    // reload image
-                    loadZone(zoneX, zoneY, zoneX + "_" + zoneY);
-                    hideAlert();
+                    if (responseData != "reserved area")
+                    {
+                        // reload image
+                        loadZone(zoneX, zoneY, zoneX + "_" +zoneY);
+                        hideAlert();
+                    } else {
+                        showOverlay(responseData);
+                        setTimeout(function () { hideAlert() }, 1000);
+                    }
+
                 },
                 error: function (errorData) {
                     console.log("error: " + errorData);
