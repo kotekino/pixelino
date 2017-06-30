@@ -41,8 +41,8 @@ var pixelino = function () {
     var isLinux = navigator.platform.toUpperCase().indexOf('LINUX') !== -1;
 
     // urls
-    // var API_URL_BASE = "http://pixelino.azurewebsites.net/api/";
-    var API_URL_BASE = "http://localhost:58037/api/";
+    var API_URL_BASE = "http://pixelino.azurewebsites.net/api/";
+    // var API_URL_BASE = "http://localhost:58037/api/";
     var API_URL_ZONES = API_URL_BASE + "zones/";
     var API_URL_SET_PIXEL = "pixels";
 
