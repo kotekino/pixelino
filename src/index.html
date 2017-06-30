@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>pixelino</title>
+        
+        <!-- META DEFINITIONS -->
+        <meta charset="utf-8" />
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        
+        <!-- LIBRARIES -->
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="http://hammerjs.github.io/dist/hammer.min.js"></script>
+        <script type="text/javascript" src="js/pixelino.js"></script>
+        
+        <!-- CORDOVA INCLUSION -->
+        <!-- script type="text/javascript" charset="utf-8" src="cordova.js"></script -->
+    </head>
+    <body>
+        
+        <!-- business logic and API calls -->
+        <script>
+            
+            $(document).ready(function () {
+                              
+                // add listeners
+                centerX = 0;
+                centerY = 0;
+                zoom = 4;
+                grid = 1;
+
+                // load canvas, otherwise error
+                pixelino.init(centerX, centerY, zoom, grid, function (canvasElement) {
+
+                });
+            })
+
+        </script>
+        
+    </body>
+</html>
