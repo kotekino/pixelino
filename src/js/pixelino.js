@@ -29,6 +29,20 @@ SOFTWARE.
 
  */
 
+// parse url
+var urlParams;
+(window.onpopstate = function () {
+    var match,
+        pl = /\+/g,  // Regex for replacing addition symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query = window.location.search.substring(1);
+
+    urlParams = {};
+    while (match = search.exec(query))
+        urlParams[decode(match[1])] = decode(match[2]);
+})();
+
 var pixelino = function () {
 
     // *********************************************************************
@@ -54,7 +68,7 @@ var pixelino = function () {
     var centerX = 0;
     var centerY = 0;
     var grid = 0;
-    var printTimeout = 5000;
+    var printTimeout = 10000;
     var zoneResolution = 100;
 
     // backup values
@@ -256,8 +270,6 @@ var pixelino = function () {
                 var image = new Image();
                 var zone = zones[index].zone;
 
-                console.log("here");
-
                 image.src = url;
 
                 // assign to array
@@ -358,9 +370,6 @@ var pixelino = function () {
         $("#main_overlay").css("height", window.innerHeight + "px");
         canvasWidth = canvasElement.width;
         canvasHeight = canvasElement.height;
-
-        // update url
-        updateUrl();
 
         // render status
         printStatus();
@@ -665,10 +674,10 @@ var pixelino = function () {
 
     // update url
     var updateUrl = function () {
-        /*if (history.pushState) {
-            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?x='+ centerX +'&y='+ centerY;
+        if (history.pushState) {
+            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?x='+ Math.round(centerX) +'&y='+ Math.round(centerY);
             window.history.pushState({ path: newurl }, '', newurl);
-        }*/
+        }
     };
 
     // ********************************************************
@@ -758,6 +767,14 @@ var pixelino = function () {
             // init interface
             initInterface();
 
+            // override init x, y
+            if (urlParams["x"] !== undefined && urlParams["y"] !== undefined) {
+                init_centerX = parseInt(urlParams["x"]);
+                init_centerY = parseInt(urlParams["y"]);
+            }
+
+            console.log(init_centerY)
+
             // assign initial parameters
             centerX = init_centerX;
             centerY = init_centerY;
@@ -799,7 +816,9 @@ var pixelino = function () {
             });
             mc.on("panend", function (ev) {
                 // force store center
+                pixelino.fixCoordinates();
                 pixelino.storeSettings();
+                updateUrl();
                 moving = false;
 
                 // mouse cursor
@@ -855,7 +874,6 @@ var pixelino = function () {
                 $('html,body').css('cursor', 'pointer');
 
                 // force store center
-                pixelino.fixCenter();
                 pixelino.storeSettings();
                 moving = true;
             });
@@ -864,8 +882,10 @@ var pixelino = function () {
                 $('html,body').css('cursor', 'default');
 
                 // force store center
-                pixelino.fixCenter();
+                pixelino.fixCoordinates();
                 pixelino.storeSettings();
+                updateUrl();
+
                 moving = false;
             });
 
@@ -884,11 +904,13 @@ var pixelino = function () {
             oldCenterY = centerY;
         },
 
-        // fix center to grid
-        fixCenter: function () {
-            centerX = Math.round(centerX);
-            centerY = Math.round(centerY);
+        // fix center and zoom to int values
+        fixCoordinates: function () {
+            //centerX = Math.round(centerX);
+            //centerY = Math.round(centerY);
+            //zoom = Math.round(zoom);
         },
+
         // set center
         setCenter: function (deltaX, deltaY) {
             // last movement stored
