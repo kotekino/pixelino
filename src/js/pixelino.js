@@ -103,6 +103,12 @@ var pixelino = function () {
             opacity: 1
         },
         {
+            red: 96,
+            green: 96,
+            blue: 96,
+            opacity: 1
+        },
+        {
             red: 128,
             green: 128,
             blue: 128,
@@ -191,6 +197,12 @@ var pixelino = function () {
             green: 0,
             blue: 255,
             opacity: 1
+        },
+        {
+            red: 255,
+            green: 178,
+            blue: 216,
+            opacity: 1
         }
     ];
 
@@ -204,6 +216,8 @@ var pixelino = function () {
     var lastPrint = 0;
     var loadTimeout = 0;
     var skipDelayExecution = 0;
+    var movingTimeout = 0;
+    var loading = false;
 
     // movement
     var moving = false;
@@ -258,6 +272,7 @@ var pixelino = function () {
 
         // main loading flag
         $("#info").html('<p>LOADING</p>');
+        loading = true;
 
         // get all zones (with current zoom settings)
         zones = getZones();
@@ -298,6 +313,7 @@ var pixelino = function () {
     // load single image
     function loadZone(x, y, zone) {
         $("#info").html('<p>LOADING</p>');
+        loading = true;
 
         var url = API_URL_ZONES + zone + "/" + new Date().getTime();
         var image = new Image();
@@ -319,6 +335,7 @@ var pixelino = function () {
 
             // reset loading
             $("#info").html('');
+            loading = false;
         };
     }
 
@@ -349,6 +366,7 @@ var pixelino = function () {
             // load and print
             loadAndPrintAll(function (data) {
                 $("#info").html('');
+                loading = false;
             });
         } else {
             // print only
@@ -803,7 +821,7 @@ var pixelino = function () {
             mc.on("panleft panright panup pandown", function (ev) {
 
                 // move center
-                pixelino.setCenter(-ev.deltaX, ev.deltaY);
+                if (!loading) pixelino.setCenter(-ev.deltaX, ev.deltaY);
                 
             });
             mc.on("panstart", function (ev) {
@@ -815,8 +833,8 @@ var pixelino = function () {
                 moving = true;
             });
             mc.on("panend", function (ev) {
+
                 // force store center
-                pixelino.fixCoordinates();
                 pixelino.storeSettings();
                 updateUrl();
                 moving = false;
@@ -830,6 +848,7 @@ var pixelino = function () {
             $(canvasElementSelection).on('mousewheel DOMMouseScroll', function (event) {
 
                 e = event.originalEvent;
+                moving = true;
 
                 // prevent zoom (non-mac env)
                 if (e.ctrlKey) e.preventDefault();
@@ -843,7 +862,11 @@ var pixelino = function () {
                     if (typeof e.detail !== "undefined") delta = e.detail / 3;
                 }
 
-                pixelino.modifyZoom(delta);
+                // change zoom
+                if (!loading) pixelino.modifyZoom(delta);
+                
+                // stop moving 
+                if (movingTimeout === 0) movingTimeout = setTimeout(function () { movingTimeout = 0; moving = false; }, 2000)
             });
 
             // tap or click
@@ -863,10 +886,10 @@ var pixelino = function () {
                     scale = ev.scale;
 
                     // move center
-                    pixelino.setCenter(-ev.deltaX, ev.deltaY);
+                    if (!loading) pixelino.setCenter(-ev.deltaX, ev.deltaY);
 
                     // set zoom
-                    pixelino.setZoom(scale);
+                    if (!loading) pixelino.setZoom(scale);
                 }
             });
             mc.on("pinchstart", function (ev) {
@@ -882,7 +905,6 @@ var pixelino = function () {
                 $('html,body').css('cursor', 'default');
 
                 // force store center
-                pixelino.fixCoordinates();
                 pixelino.storeSettings();
                 updateUrl();
 
