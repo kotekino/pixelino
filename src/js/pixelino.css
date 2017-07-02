@@ -1,4 +1,4 @@
-﻿
+
 /*******************************************************************************/
 /*  FONTS
 /*******************************************************************************/
@@ -48,7 +48,7 @@ body {
     text-transform: uppercase;
     background: #ffffff;
     color: #000000;
-    opacity: 0.8;
+    opacity: 1;
     border-radius: 5px;
     font-size: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
@@ -80,7 +80,7 @@ body {
     width: 100%;
     z-index: 100;
     height: 20px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.9);
     text-align: center;
 }
 
@@ -115,7 +115,7 @@ body {
     position: absolute;
     width: 100%;
     height: 40px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.9);
     z-index: 101;
 }
 
@@ -123,7 +123,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     padding-top: 5px;
-    width: 465px; 
+    width: 490px; 
     display: block;
 }
 .button {
@@ -167,7 +167,7 @@ body {
     }
     #toolbar {
         /* mobile */
-        width: 225px;
+        width: 250px;
     }
 }
 
@@ -218,7 +218,7 @@ iPad 3
     }
     #toolbar {
         /* mobile */
-        width: 225px;
+        width: 250px;
     }
 }
 
@@ -235,7 +235,7 @@ iPad 3
     }
     #toolbar {
         /* mobile */
-        width: 225px;
+        width: 250px;
     }
 }
 
@@ -252,7 +252,7 @@ iPad 3
     }
     #toolbar {
         /* mobile */
-        width: 225px;
+        width: 250px;
     }
 }
 
@@ -269,7 +269,7 @@ iPad 3
     }
     #toolbar {
         /* mobile */
-        width: 225px;
+        width: 250px;
     }
 }
 
@@ -286,7 +286,7 @@ iPad 3
     }
     #toolbar {
         /* mobile */
-        width: 225px;
+        width: 250px;
     }
 }
 
@@ -303,7 +303,7 @@ iPad 3
     }
     #toolbar {
         /* mobile */
-        width: 225px;
+        width: 250px;
     }
 }
 
@@ -320,7 +320,7 @@ iPad 3
     }
     #toolbar {
         /* mobile */
-        width: 225px;
+        width: 250px;
     }
 }
 
@@ -332,6 +332,6 @@ iPad 3
     }
     #toolbar {
         /* mobile */
-        width: 225px;
+        width: 250px;
     }
 }
