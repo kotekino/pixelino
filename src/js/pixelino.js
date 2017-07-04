@@ -2,8 +2,6 @@
  * @pixelino.js
  * Javascript client for pixelino.kotekino.com
  *
- * The extra line between the end of the @file docblock
- * and the file-closure is important.
 
 MIT License
 
@@ -95,6 +93,7 @@ var pixelino = function () {
     var imageArray = new Array();
 
     // palette
+    var pickers = new Array();
     var palette = [
         {
             red: 0,
@@ -221,6 +220,24 @@ var pixelino = function () {
 
     // movement
     var moving = false;
+
+    // style change for color
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutationRecord) {
+
+            var id = mutationRecord.target.id;
+            var palette_id = id.replace('color_','');
+
+            red = parseInt(pickers[id].rgb[0]);
+            green = parseInt(pickers[id].rgb[1]);
+            blue = parseInt(pickers[id].rgb[2]);
+
+            currentColor = {red: red, green: green, blue: blue, opacity: 1};
+            palette[palette_id] = currentColor;
+            
+            //pickers[id].hide();
+        });    
+    }); 
 
     // *********************************************************************
     // LOAD METHODS
@@ -693,7 +710,7 @@ var pixelino = function () {
     // update url
     var updateUrl = function () {
         if (history.pushState) {
-            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?x='+ Math.round(centerX) +'&y='+ Math.round(centerY);
+            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?x='+ Math.round(centerX) +'&y='+ Math.round(centerY)+'&z=' + Math.round(zoom);
             window.history.pushState({ path: newurl }, '', newurl);
         }
     };
@@ -701,11 +718,22 @@ var pixelino = function () {
     // ********************************************************
     // INTERFACE METHODS
     // ********************************************************
+
+    // print color palette
     var printColors = function () {
+        $("#colors").html('');
         $.each(palette, function (index, value) {
             var selectedClass = "";
             if (value === currentColor) selectedClass = "selected";
-            $("#colors").append("<div class=\"button colors " + selectedClass + "\" style=\"background-color: rgba(" + value.red + "," + value.green + "," + value.blue + "," + value.opacity + ")\" class=\"button\" id=\"color_" + index + "\"></div>");
+            $("#colors").append("<div class=\"button jscolor colors " + selectedClass + "\" style=\"background-color: rgba(" + value.red + "," + value.green + "," + value.blue + "," + value.opacity + ")\" class=\"button\" id=\"color_" + index + "\"></div>");
+
+            // store pickers
+            var input = $("#color_" + index)[0];
+            var picker = new jscolor(input, { closable: true, showOnClick: false, required: false, valueElement: null});
+            picker.fromRGB(value.red, value.green, value.blue);
+            pickers["color_" + index] = picker;
+            observer.observe(input, { attributes : true, attributeFilter : ['style'] });
+
         });
     };
 
@@ -723,6 +751,11 @@ var pixelino = function () {
 
         // print colors
         printColors();
+
+        // TODO: create export botton
+        // exportElement = document.createElement("div");
+        // document.getElementById("toolbar").appendChild(exportElement);
+        // exportElement.id = "export";
 
         // create status element
         statusElement = document.createElement("div");
@@ -758,15 +791,28 @@ var pixelino = function () {
         // assign color
         $(".colors").click(function () {
             mode = "draw";
+            var id = this.id.replace("color_", "");
+
+            // open picker on second click
+            if ($(this).hasClass("selected")) {
+                // open picker
+                pickers[this.id].show();
+            }
 
             $(".colors").removeClass("selected");
-
-            var id = this.id.replace("color_","");
             currentColor = palette[id];
 
             $("#canvas_selection").addClass("draw").removeClass("move");
             $(this).addClass("selected");
         });
+
+        // manage event
+        $("#export").click(function () {
+
+            // TODO: manage export event
+
+
+        })
 
         // clear selected pixel
         $("#status").mouseover(function () {
@@ -786,12 +832,11 @@ var pixelino = function () {
             initInterface();
 
             // override init x, y
-            if (urlParams["x"] !== undefined && urlParams["y"] !== undefined) {
+            if (urlParams["x"] !== undefined && urlParams["y"] !== undefined && urlParams["z"] !== undefined) {
                 init_centerX = parseInt(urlParams["x"]);
                 init_centerY = parseInt(urlParams["y"]);
+                init_zoom = parseInt(urlParams["z"]);
             }
-
-            console.log(init_centerY)
 
             // assign initial parameters
             centerX = init_centerX;
@@ -866,7 +911,7 @@ var pixelino = function () {
                 if (!loading) pixelino.modifyZoom(delta);
                 
                 // stop moving 
-                if (movingTimeout === 0) movingTimeout = setTimeout(function () { movingTimeout = 0; moving = false; }, 2000)
+                if (movingTimeout === 0) movingTimeout = setTimeout(function () { movingTimeout = 0; moving = false; updateUrl(); }, 1000);
             });
 
             // tap or click
@@ -924,13 +969,6 @@ var pixelino = function () {
         storeSettings: function () {
             oldCenterX = centerX;
             oldCenterY = centerY;
-        },
-
-        // fix center and zoom to int values
-        fixCoordinates: function () {
-            //centerX = Math.round(centerX);
-            //centerY = Math.round(centerY);
-            //zoom = Math.round(zoom);
         },
 
         // set center
