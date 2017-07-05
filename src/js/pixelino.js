@@ -41,6 +41,35 @@ var urlParams;
         urlParams[decode(match[1])] = decode(match[2]);
 })();
 
+// copy to clipboard
+var CopyToClipboard = function (text, fallback) {
+    var fb = function () {
+        $t.remove();
+        if (fallback !== undefined && fallback) {
+            var fs = 'Please, copy the following text:';
+            if (window.prompt(fs, text) !== null) return true;
+        }
+        return false;
+    };
+    var $t = $('<textarea />');
+    $t.val(text).css({
+        position: 'fixed', 
+        left: '-10000px'
+    }).appendTo('body');
+    $t.select();
+    try {
+        if (document.execCommand('copy')) {
+            $t.remove();
+            return true;
+        }
+        fb();
+    }
+    catch (e) {
+        fb();
+    }
+};
+
+// pixelino client
 var pixelino = function () {
 
     // *********************************************************************
@@ -57,6 +86,7 @@ var pixelino = function () {
     // var API_URL_BASE = "http://localhost:58037/api/";
     var API_URL_ZONES = API_URL_BASE + "zones/";
     var API_URL_SET_PIXEL = "pixels";
+    var API_EXPORT = "pixels/exports";
 
     // consts
     var canvasName = "canvas_container";
@@ -737,6 +767,19 @@ var pixelino = function () {
         });
     };
 
+    // save image
+    var saveImageAsPng = function (name, address) {
+        var link = document.createElement('a');
+        link.style = 'position: fixed; left -10000px;'; // making it invisible
+        link.href = 'data:application/octet-stream,' + encodeURIComponent(address); // forcing content type
+        link.download = name.indexOf('.png') < 0 ? name + '.png' : name;
+        
+        // append, click and remove
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     // init interface
     var initInterface = function () {
 
@@ -752,10 +795,40 @@ var pixelino = function () {
         // print colors
         printColors();
 
-        // TODO: create export botton
-        // exportElement = document.createElement("div");
-        // document.getElementById("toolbar").appendChild(exportElement);
-        // exportElement.id = "export";
+        // create export botton
+        var exportElement = document.createElement("div");
+        document.getElementById("toolbar_container").appendChild(exportElement);
+        exportElement.id = "export";
+
+        // click event for export
+        $(exportElement).click(function () {
+            visibleWidth = Math.round(canvasWidth / zoom);
+            visibleHeight = Math.round(canvasHeight / zoom)
+
+            var left = centerX - Math.floor(visibleWidth / 2);
+            var top = centerY + Math.floor(visibleHeight/ 2);
+            var right = left + visibleWidth;
+            var bottom = top - visibleHeight;
+            var exportUrl = API_URL_BASE + API_EXPORT + "?left=" + Math.round(left) + "&top=" + Math.round(top) + "&right=" + Math.round(right) + "&bottom=" + Math.round(bottom);
+
+            // open export url to another window
+            window.open(exportUrl);
+            // var imageName = "pixelino_" + top + "_" + left + "_" + bottom + "_" + right;
+            // saveImageAsPng(imageName, exportUrl);
+        })
+
+        // create link botton
+        var linkElement = document.createElement("div");
+        document.getElementById("toolbar_container").appendChild(linkElement);
+        linkElement.id = "link";
+
+        // click event for link
+        $(linkElement).click(function () {
+            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?x=' + Math.round(centerX) + '&y=' + Math.round(centerY) + '&z=' + Math.round(zoom);
+            CopyToClipboard(newurl);
+            showOverlay("link copied");;
+            setTimeout(function () { hideAlert() }, 1000);
+        })
 
         // create status element
         statusElement = document.createElement("div");
@@ -805,14 +878,6 @@ var pixelino = function () {
             $("#canvas_selection").addClass("draw").removeClass("move");
             $(this).addClass("selected");
         });
-
-        // manage event
-        $("#export").click(function () {
-
-            // TODO: manage export event
-
-
-        })
 
         // clear selected pixel
         $("#status").mouseover(function () {
