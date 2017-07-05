@@ -126,7 +126,7 @@ body {
     width: 490px; 
     display: block;
 }
-.button {
+.button, #colors input {
     margin-left: 5px;
     float: left;
     width: 20px;
@@ -134,6 +134,28 @@ body {
     border: 1px solid #eeeeee;
     cursor: pointer;
     margin-top: 3px;
+}
+
+#export {
+    margin-right: 5px;
+    float: right;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-top: 3px;
+    background: url('../img/export.png') center center no-repeat;
+    background-size: 20px 20px;
+}
+
+#link {
+    margin-right: 5px;
+    float: right;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-top: 3px;
+    background: url('../img/link.png') center center no-repeat;
+    background-size: 20px 20px;
 }
 
 .selected {
@@ -168,6 +190,12 @@ body {
     #toolbar {
         /* mobile */
         width: 250px;
+    }
+    #link, #export {
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+        margin-top: -17px;
     }
 }
 
@@ -220,6 +248,13 @@ iPad 3
         /* mobile */
         width: 250px;
     }
+    #link, #export {
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+        margin-top: -17px;
+        background-size: 40px 40px;
+    }
 }
 
 /* iPhone 5 ----------- */
@@ -236,6 +271,13 @@ iPad 3
     #toolbar {
         /* mobile */
         width: 250px;
+    }
+    #link, #export {
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+        margin-top: -17px;
+        background-size: 40px 40px;
     }
 }
 
@@ -254,6 +296,13 @@ iPad 3
         /* mobile */
         width: 250px;
     }
+    #link, #export {
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+        margin-top: -17px;
+        background-size: 40px 40px;
+    }
 }
 
 /* iPhone 6+ ----------- */
@@ -270,6 +319,13 @@ iPad 3
     #toolbar {
         /* mobile */
         width: 250px;
+    }
+    #link, #export {
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+        margin-top: -17px;
+        background-size: 40px 40px;
     }
 }
 
@@ -288,6 +344,13 @@ iPad 3
         /* mobile */
         width: 250px;
     }
+    #link, #export {
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+        margin-top: -17px;
+        background-size: 40px 40px;
+    }
 }
 
 /* Samsung Galaxy S4 ----------- */
@@ -304,6 +367,13 @@ iPad 3
     #toolbar {
         /* mobile */
         width: 250px;
+    }
+    #link, #export {
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+        margin-top: -17px;
+        background-size: 40px 40px;
     }
 }
 
@@ -322,6 +392,13 @@ iPad 3
         /* mobile */
         width: 250px;
     }
+    #link, #export {
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+        margin-top: -17px;
+        background-size: 40px 40px;
+    }
 }
 
 @media only screen and (max-width: 600px) {
@@ -333,5 +410,77 @@ iPad 3
     #toolbar {
         /* mobile */
         width: 250px;
+    }
+    #link, #export {
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+        margin-top: -17px;
+        background-size: 40px 40px;
+    }
+}
+@media only screen and (max-width: 444px) {
+    /* Styles */
+    #toolbar_container {
+        /* mobile */
+        height: 64px;
+    }
+    #toolbar {
+        /* mobile */
+        float: left;
+        margin-left: 4px;
+        width: 250px;
+    }
+    #link, #export {
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+        margin-top: 12px;
+        background-size: 40px 40px;
+    }
+}
+@media only screen and (max-width: 350px) {
+    /* Styles */
+    #toolbar_container {
+        /* mobile */
+        height: 64px;
+    }
+
+    #toolbar {
+        /* mobile */
+        float: left;
+        margin-left: 4px;
+        width: 250px;
+    }
+
+    #export {
+        margin-right: 8px;
+        width: 40px;
+        height: 40px;
+        margin-top: 12px;
+        background-size: 40px 40px;
+    }
+
+    #link {
+        display: none;
+    }
+}
+@media only screen and (max-width: 305px) {
+    /* Styles */
+    #toolbar_container {
+        /* mobile */
+        height: 64px;
+    }
+    #toolbar {
+        /* mobile */
+        float: left;
+        margin-left: 4px;
+        width: 250px;
+    }
+    #export {
+        display: none;
+    }
+    #link {
+        display: none;
     }
 }
