@@ -138,6 +138,9 @@ var pixelino = function () {
     // movement
     var moving = false;
 
+    // loadArea Timeout
+    var loadAreaTimeout = null;
+
     // *********************************************************************
     // LOAD METHODS
     // *********************************************************************
@@ -557,7 +560,9 @@ var pixelino = function () {
                     if (responseData !== "reserved area")
                     {
                         // reload image
-                        loadZone(zoneX, zoneY, zoneX + "_" +zoneY);
+                        clearTimeout(loadAreaTimeout);
+                        loadAreaTimeout = setTimeout(function(){loadZone(zoneX, zoneY, zoneX + "_" +zoneY);}, 5000);
+
                         hideAlert();
                     } else {
                         showOverlay(responseData);
