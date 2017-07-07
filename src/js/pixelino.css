@@ -32,7 +32,7 @@ body {
     top: 0;
     left: 0;
     position: fixed;
-    z-index: 999;
+    z-index: 100;
     display: none;
 }
 
@@ -40,19 +40,47 @@ body {
     position:fixed; /* change this to fixed */
     top: 50%;
     left: 50%;
-    margin-top: -50px;
-    margin-left: -50px;
-    width: 150px;
-    height: 50px;
-    border: 2px solid #000000;
+    margin-top: -40px;
+    margin-left: -125px;
+    width: 250px;
+    height: 80px;
+    border: 3px solid #000000;
     text-transform: uppercase;
     background: #ffffff;
     color: #000000;
     opacity: 1;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
     text-align: center;
+}
+
+.main_overlay_close {
+    float: right;
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.overlay_alert_title {
+    position: absolute;
+    width: 250px;
+    margin-top: 28px;
+}
+
+.overlay_share_title {
+    margin-top: 10px;
+    padding-left: 22px;
+}
+
+.overlay_share_inputbox {
+    width: 210px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 1px solid black;
+    z-index: 101;
 }
 
 #canvas_pixels {
@@ -78,7 +106,7 @@ body {
     left: 0;
     bottom: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 99;
     height: 20px;
     background-color: rgba(0, 0, 0, 0.9);
     text-align: center;
@@ -89,7 +117,7 @@ body {
     left: 0;
     bottom: 0;
     width: 100%;
-    z-index: 102;
+    z-index: 99;
     height: 20px;
     text-align: center;
 }
@@ -114,54 +142,59 @@ body {
 #toolbar_container {
     position: absolute;
     width: 100%;
-    height: 40px;
+    height: 41px;
     background-color: rgba(0, 0, 0, 0.9);
-    z-index: 101;
+    z-index: 99;
 }
 
 #toolbar {
     margin-left: auto;
     margin-right: auto;
     padding-top: 5px;
-    width: 490px; 
+    width: 495px; 
     display: block;
 }
 .button, #colors input {
-    margin-left: 5px;
+    margin-right: 5px;
     float: left;
     width: 20px;
     height: 20px;
     border: 1px solid #eeeeee;
     cursor: pointer;
-    margin-top: 3px;
+    margin-top: 4px;
+    border-radius: 5px;
 }
 
 #export {
-    margin-right: 5px;
+    margin-right: 7px;
     float: right;
     width: 20px;
     height: 20px;
     cursor: pointer;
-    margin-top: 3px;
+    margin-top: 5px;
     background: url('../img/export.png') center center no-repeat;
     background-size: 20px 20px;
 }
 
 #link {
-    margin-right: 5px;
+    margin-right: 6px;
     float: right;
     width: 20px;
     height: 20px;
     cursor: pointer;
-    margin-top: 3px;
+    margin-top: 5px;
     background: url('../img/link.png') center center no-repeat;
     background-size: 20px 20px;
 }
 
+#colors {
+    margin-left: 5px;
+}
+
 .selected {
     border: 2px solid #eeeeee;
-    margin-left: 4px;
-    margin-top: 1px;
+    margin-right: 3px;
+    margin-top: 2px;
 }
 
 .draw {
@@ -185,14 +218,14 @@ body {
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
     #toolbar {
         /* mobile */
         width: 250px;
     }
     #link, #export {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 40px;
         height: 40px;
         margin-top: -17px;
@@ -242,17 +275,17 @@ iPad 3
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
     #toolbar {
         /* mobile */
         width: 250px;
     }
     #link, #export {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 40px;
         height: 40px;
-        margin-top: -17px;
+        margin-top: 13px;
         background-size: 40px 40px;
     }
 }
@@ -266,17 +299,17 @@ iPad 3
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
     #toolbar {
         /* mobile */
         width: 250px;
     }
     #link, #export {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 40px;
         height: 40px;
-        margin-top: -17px;
+        margin-top: 13px;
         background-size: 40px 40px;
     }
 }
@@ -290,17 +323,17 @@ iPad 3
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
     #toolbar {
         /* mobile */
         width: 250px;
     }
     #link, #export {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 40px;
         height: 40px;
-        margin-top: -17px;
+        margin-top: 13px;
         background-size: 40px 40px;
     }
 }
@@ -314,17 +347,17 @@ iPad 3
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
     #toolbar {
         /* mobile */
         width: 250px;
     }
     #link, #export {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 40px;
         height: 40px;
-        margin-top: -17px;
+        margin-top: 13px;
         background-size: 40px 40px;
     }
 }
@@ -338,17 +371,17 @@ iPad 3
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
     #toolbar {
         /* mobile */
         width: 250px;
     }
     #link, #export {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 40px;
         height: 40px;
-        margin-top: -17px;
+        margin-top: 13px;
         background-size: 40px 40px;
     }
 }
@@ -362,17 +395,17 @@ iPad 3
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
     #toolbar {
         /* mobile */
         width: 250px;
     }
     #link, #export {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 40px;
         height: 40px;
-        margin-top: -17px;
+        margin-top: 13px;
         background-size: 40px 40px;
     }
 }
@@ -386,17 +419,17 @@ iPad 3
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
     #toolbar {
         /* mobile */
         width: 250px;
     }
     #link, #export {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 40px;
         height: 40px;
-        margin-top: -17px;
+        margin-top: 13px;
         background-size: 40px 40px;
     }
 }
@@ -405,17 +438,17 @@ iPad 3
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
     #toolbar {
         /* mobile */
         width: 250px;
     }
     #link, #export {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 40px;
         height: 40px;
-        margin-top: -17px;
+        margin-top: 13px;
         background-size: 40px 40px;
     }
 }
@@ -423,7 +456,7 @@ iPad 3
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
     #toolbar {
         /* mobile */
@@ -432,10 +465,10 @@ iPad 3
         width: 250px;
     }
     #link, #export {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 40px;
         height: 40px;
-        margin-top: 12px;
+        margin-top: 13px;
         background-size: 40px 40px;
     }
 }
@@ -443,7 +476,7 @@ iPad 3
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
 
     #toolbar {
@@ -454,10 +487,10 @@ iPad 3
     }
 
     #export {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 40px;
         height: 40px;
-        margin-top: 12px;
+        margin-top: 13px;
         background-size: 40px 40px;
     }
 
@@ -469,7 +502,7 @@ iPad 3
     /* Styles */
     #toolbar_container {
         /* mobile */
-        height: 64px;
+        height: 65px;
     }
     #toolbar {
         /* mobile */
