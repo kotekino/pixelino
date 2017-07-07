@@ -23,27 +23,13 @@
 	width:100%;
 	box-sizing:border-box;
 }
-.hex-color-picker-wrapper .picker-form .submit {
-	position:absolute;
-	top:0;
-	right:0;
-}
 .hex-color-picker-wrapper .picker-form input {
-	border: medium;
-   border-radius: 0;
-   font-size: 12px;
-   height: 30px;
-   margin: 0;
-   padding: 3px 5px;
-}
-
-#colors input.submit {
-    padding: 0px;
-    height: 2em;
-    width: 2em;
-    font-size: 1em;
-    margin-top: -0.25em;
-    margin-right: -0.25em;
+    border: medium;
+    border-radius: 0;
+    font-size: 12px;
+    height: 30px;
+    margin: 0;
+    padding: 3px 5px;
 }
 
 .color-block {
@@ -52,19 +38,46 @@
 
 .hex-color-picker-wrapper {
     background: rgba(0, 0, 0, 0.9);
-    top: 41px;
+    top: 65px;
+    left: 0px;
     padding: 1em;
     border-radius: 0em 0em 1em 1em;
     position: fixed;
 }
 
-@media only screen and (max-width: 600px) {
-	.hex-color-picker-wrapper {
-		top: 65px;
-	}
+#colors input {
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+    float: left;
+}
 
-	.button, #colors input#colorPicker {
-		height: 40px;
-		width: 42px;
-	}
+#colorPicker
+{
+    margin-left: 5px;
+    margin-top: 8px;
+	height: 40px;
+	width: 40px;
+    border: 1px solid white;
+}
+
+#colors input.selected-color  
+{
+    border: 1px solid white;
+    margin-left: 2px;
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-top: 8px;
+    display: none;
+}
+#colors input.submit  
+{
+    border: none;
+    float: right;
+    margin-right: 2px;
+    width: 40px;
+    height: 40px;
+    margin-top: 8px;
+    background: url("../img/ok.svg") center center no-repeat;
 }
