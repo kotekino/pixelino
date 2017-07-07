@@ -43,7 +43,7 @@
                 settings.blockWidth = Math.floor(settings.pickerWidth/(settings.size*2-1));
                 settings.maxBlocks=settings.size*2-1;
                 settings.elem = $(this);
-                $element.click(function(){
+                $element.click(function () {
                     $('.hex-color-picker-wrapper').remove();
                     $element.after(formatPicker());
                     stylePicker();
@@ -102,13 +102,14 @@
 				    });
 
 				    //display correct sidebar
-				    $('.color-picker-container .color-block').click(function(){
+                $('.color-picker-container .color-block').click(function () {
     			        $(".picker-sidebar").html(createSidebar(getBlockColor(this)));
 			       });
 
                 //set selected color
                 $('.hex-color-picker-wrapper .color-block').click(function(){
-                    var selectedColor = "#"+rgbToHex(getBlockColor(this));
+                    var selectedColor = "#" + rgbToHex(getBlockColor(this));
+                    $(".picker-form .selected-color").show();
                     $(".picker-form .selected-color").val(selectedColor);
                     $(".picker-form .selected-color").css({
                         "background-color":selectedColor,
@@ -320,8 +321,8 @@
                 }
                 output+='</div>';
                 output+='<div class="picker-form-wrapper"><form class="picker-form">'+
-                    '<input type="text" name="selected-color" class="selected-color" readonly="readonly"/>'+
-                    '<input type="submit" value="👍🏻" name="submit" class="submit"/>'+
+                    '<input type="text" name="selected-color" class="selected-color" readonly="readonly"/ onfocus=\"blur();\">' +
+                    '<input type="submit" value="" name="submit" class="submit"/>'+
                     '</form></div>';
                 output+="</div>";//end of hex-color-picker-wrapper
                 return output;
