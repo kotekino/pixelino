@@ -124,7 +124,11 @@ var pixelino = function () {
     var imageArray = new Array();
 
     // current color
-    var currentColor = {red: 0, green: 0, blue: 0, opacity: 1};
+    var defaultColor = {red: 0, green: 0, blue: 0, opacity: 1};
+    if(localStorage.getItem("pixelino-lastColor") == null)
+      localStorage.setItem("pixelino-lastColor", JSON.stringify(defaultColor));
+
+    var currentColor = typeof(Storage) !== "undefined" ? jQuery.parseJSON(localStorage.getItem("pixelino-lastColor")) : defaultColor;
 
     // interaction mode (draw)
     var mode = "draw"; // [draw]
@@ -620,12 +624,14 @@ var pixelino = function () {
     // print color palette
     var printColors = function () {
         $("#colors").html('<input type="text" id="colorPicker" />');
+        $("#colorPicker").css("background-color", "rgba(" + currentColor.red + ", " + currentColor.green + ", " + currentColor.blue + ", " + currentColor.opacity + ")");
         $("#colorPicker").on('keyup', function(){$("#colorPicker").val('');});
         jQuery("#colorPicker").hexColorPicker({
           colorizeTarget: true,
           outputFormat: "",
           submitCallback: function(hex){
             currentColor = hexToColor("#" + hex);
+            localStorage.setItem("pixelino-lastColor", JSON.stringify(currentColor));
           }
         });
     };
