@@ -37,7 +37,7 @@ var urlParams;
         query = window.location.search.substring(1);
 
     urlParams = {};
-    while (match = search.exec(query))
+    while ((match = search.exec(query)) !== null)
         urlParams[decode(match[1])] = decode(match[2]);
 })();
 
@@ -83,6 +83,8 @@ var pixelino = function () {
 
     // urls
     var API_URL_BASE = "http://pixelino.azurewebsites.net/api/";
+    var PIXELINO_URL_BASE = "http://pixelino.kotekino.com/";
+    // var API_URL_BASE = "http://localhost:58037/api/";
     var API_URL_ZONES = API_URL_BASE + "zones/";
     var API_URL_SET_PIXEL = "pixels";
     var API_EXPORT = "pixels/exports";
@@ -95,7 +97,7 @@ var pixelino = function () {
     var centerX = 0;
     var centerY = 0;
     var grid = 0;
-    var printTimeout = 10000;
+    var printTimeout = 20000;
     var zoneResolution = 100;
 
     // backup values
@@ -242,7 +244,6 @@ var pixelino = function () {
 
     // timer print
     var lastPrint = 0;
-    var loadTimeout = 0;
     var skipDelayExecution = 0;
     var movingTimeout = 0;
     var loading = false;
@@ -271,26 +272,7 @@ var pixelino = function () {
     // *********************************************************************
     
     // print preloaded images
-    function printAll(delayed) {
-
-        // skip if load too fast
-        if (loadTimeout > 0) {
-            if (new Date().getTime() - lastPrint < loadTimeout) {
-
-                // if already scheduled, cancel scheduling
-                if (skipDelayExecution > 0) {
-                    clearInterval(skipDelayExecution);
-                }
-
-                // schedule last execution
-                skipDelayExecution = setTimeout(function () { printAll(true); });
-
-                return;
-            }
-
-            // lastPrint
-            lastPrint = new Date().getTime();
-        }
+    function printAll(loadMissingZone) {
 
         zones = getZones();
         if (zones.length > 0) {
@@ -305,7 +287,7 @@ var pixelino = function () {
                     printZone(x, y, imageArray[zones[index].zone]);
                 }
                 else {
-                    loadZone(absX, absY, zone);
+                    if (loadMissingZone) loadZone(absX, absY, zone);
                 }
             });
         }
@@ -316,6 +298,7 @@ var pixelino = function () {
 
         // main loading flag
         $("#info").html('<p>LOADING</p>');
+        $("#main_overlay").show();
         loading = true;
 
         // get all zones (with current zoom settings)
@@ -341,7 +324,7 @@ var pixelino = function () {
                 image.onload = function () {
 
                     // render zone
-                    printZone(x, y, image);
+                    if (!moving) printZone(x, y, image);
 
                     // general callback
                     isAllLoaded(callback);
@@ -404,22 +387,23 @@ var pixelino = function () {
     // *********************************************************************
 
     // load subcanvases and print
-    var printCanvas = function (load) {
+    var printCanvas = function (loadAll, loadMissingZone) {
 
-        if (load) {
+        if (loadAll) {
             // load and print
             loadAndPrintAll(function (data) {
                 $("#info").html('');
+                $("#main_overlay").hide();
                 loading = false;
             });
         } else {
             // print only
-            printAll(false);
+            printAll(loadMissingZone);
         }
     };
 
     // refresh canvas
-    var refreshCanvas = function (load) {
+    var refreshCanvas = function (loadAll, loadMissingZone) {
 
         // resize canvases element
         canvasElement.width = window.innerWidth;
@@ -440,7 +424,7 @@ var pixelino = function () {
         if (grid && zoom > 10) printGrid();
 
         // refresh canvas element
-        printCanvas(load);
+        printCanvas(loadAll, loadMissingZone);
 
     };
 
@@ -723,14 +707,25 @@ var pixelino = function () {
         $("#status").html("<p id=\"coord\">" + mouseAbsoluteX + ", " + mouseAbsoluteY + "</p><p id=\"zoom\">" + getZoomPercentage(zoom) + "</p>");
     };
 
-    // hide overlay alert
+    // show overlay alert
     var showOverlay = function (text) {
-        $("#main_overlay").html("<div id=\"main_overlay_alert\"><p>" + text + "</p></div>");
+        $("#main_overlay").html("<div id=\"main_overlay_alert\"><p class=\"overlay_alert_title\">" + text + "</p></div>");
         $("#main_overlay").show();
+    };
+
+    // show overlay alert
+    var linkOverlay = function (text, inputText) {
+        $("#main_overlay").html("<div id=\"main_overlay_alert\"><div class=\"main_overlay_close\">x</div><p class=\"overlay_share_title\">" + text + "</p><input class=\"overlay_share_inputbox\" type='text' value='" + inputText + "' /></div>");
+        $("#main_overlay").show();
+
+        $(".main_overlay_close").click(function () {
+            hideAlert();
+        });
     };
 
     // hide overlay alert
     var hideAlert = function () {
+        $("#main_overlay").html('');
         $("#main_overlay").hide();
     };
 
@@ -775,7 +770,7 @@ var pixelino = function () {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    }
+    };
 
     // init interface
     var initInterface = function () {
@@ -800,7 +795,7 @@ var pixelino = function () {
         // click event for export
         $(exportElement).click(function () {
             visibleWidth = Math.round(canvasWidth / zoom);
-            visibleHeight = Math.round(canvasHeight / zoom)
+            visibleHeight = Math.round(canvasHeight / zoom);
 
             var left = centerX - Math.floor(visibleWidth / 2);
             var top = centerY + Math.floor(visibleHeight/ 2);
@@ -810,9 +805,7 @@ var pixelino = function () {
 
             // open export url to another window
             window.open(exportUrl);
-            // var imageName = "pixelino_" + top + "_" + left + "_" + bottom + "_" + right;
-            // saveImageAsPng(imageName, exportUrl);
-        })
+        });
 
         // create link botton
         var linkElement = document.createElement("div");
@@ -821,11 +814,10 @@ var pixelino = function () {
 
         // click event for link
         $(linkElement).click(function () {
-            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?x=' + Math.round(centerX) + '&y=' + Math.round(centerY) + '&z=' + Math.round(zoom);
-            CopyToClipboard(newurl);
-            showOverlay("link copied");;
-            setTimeout(function () { hideAlert() }, 1000);
-        })
+            var newurl = PIXELINO_URL_BASE + 'client/index.html?x=' + Math.round(centerX) + '&y=' + Math.round(centerY) + '&z=' + Math.round(zoom);
+            linkOverlay('Share URL: ', newurl);
+            $(".overlay_share_inputbox").select();
+        });
 
         // create status element
         statusElement = document.createElement("div");
@@ -907,10 +899,10 @@ var pixelino = function () {
             grid = init_grid;
 
             // refresh canvas
-            refreshCanvas(true);
+            refreshCanvas(true, false);
 
             // schdule print canvas next executions
-            setInterval(function () { if (!moving) printCanvas(true); }, printTimeout);
+            setInterval(function () { if (!moving && zoom > 1) printCanvas(true, false); }, printTimeout);
 
             // assign mouse listeners
             canvasElementSelection.addEventListener("mousemove", mousePosition, false);
@@ -928,7 +920,7 @@ var pixelino = function () {
             mc.on("panleft panright panup pandown", function (ev) {
 
                 // move center
-                if (!loading) pixelino.setCenter(-ev.deltaX, ev.deltaY);
+                if (!loading) pixelino.setCenter(-ev.deltaX, ev.deltaY, false);
                 
             });
             mc.on("panstart", function (ev) {
@@ -942,6 +934,7 @@ var pixelino = function () {
             mc.on("panend", function (ev) {
 
                 // force store center
+                pixelino.setCenter(-ev.deltaX, ev.deltaY, true);
                 pixelino.storeSettings();
                 updateUrl();
                 moving = false;
@@ -970,10 +963,10 @@ var pixelino = function () {
                 }
 
                 // change zoom
-                if (!loading) pixelino.modifyZoom(delta);
+                if (!loading) pixelino.modifyZoom(delta, false);
                 
                 // stop moving 
-                if (movingTimeout === 0) movingTimeout = setTimeout(function () { movingTimeout = 0; moving = false; updateUrl(); }, 1000);
+                if (movingTimeout === 0) movingTimeout = setTimeout(function () { movingTimeout = 0; pixelino.modifyZoom(delta, true); updateUrl(); moving = false; }, 1000);
             });
 
             // tap or click
@@ -993,10 +986,10 @@ var pixelino = function () {
                     scale = ev.scale;
 
                     // move center
-                    if (!loading) pixelino.setCenter(-ev.deltaX, ev.deltaY);
+                    if (!loading) pixelino.setCenter(-ev.deltaX, ev.deltaY, false);
 
                     // set zoom
-                    if (!loading) pixelino.setZoom(scale);
+                    if (!loading) pixelino.setZoom(scale, false);
                 }
             });
             mc.on("pinchstart", function (ev) {
@@ -1010,8 +1003,9 @@ var pixelino = function () {
             mc.on("pinchend", function (ev) {
                 // mouse cursor
                 $('html,body').css('cursor', 'default');
-
-                // force store center
+                
+                pixelino.setCenter(-ev.deltaX, ev.deltaY, true);
+                pixelino.setZoom(scale, true);
                 pixelino.storeSettings();
                 updateUrl();
 
@@ -1034,7 +1028,7 @@ var pixelino = function () {
         },
 
         // set center
-        setCenter: function (deltaX, deltaY) {
+        setCenter: function (deltaX, deltaY, loadMissingZone) {
             // last movement stored
             lastMovement = new Date().getTime();
 
@@ -1043,11 +1037,11 @@ var pixelino = function () {
             centerY = oldCenterY + deltaY / zoom;
 
             // refresh canvas
-            refreshCanvas(false);
+            refreshCanvas(false, loadMissingZone);
         },
 
         // set zoom
-        setZoom: function (deltaZoom) {
+        setZoom: function (deltaZoom, loadMissingZone) {
 
             if (deltaZoom >= 1) {
                 // increase zoom
@@ -1065,11 +1059,11 @@ var pixelino = function () {
             if (zoom > 300) zoom = 300;
 
             // refresh canvas
-            refreshCanvas(false);
+            refreshCanvas(false, loadMissingZone);
         },
 
         // increase / decrease zoom
-        modifyZoom: function (deltaWheel) {
+        modifyZoom: function (deltaWheel, loadMissingZone) {
             // zoom
             zoom = zoom + deltaWheel * zoom / 20;
 
@@ -1081,7 +1075,7 @@ var pixelino = function () {
             pixelino.storeSettings();
 
             // refresh canvas
-            refreshCanvas(false);
+            refreshCanvas(false, loadMissingZone);
 
         }
     };
