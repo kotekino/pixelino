@@ -216,7 +216,6 @@ body {
         /* mobile */
         float: left;
         margin-left: 4px;
-        width: 250px;
     }
     #link, #export {
         margin-right: 10px;
@@ -238,7 +237,6 @@ body {
         /* mobile */
         float: left;
         margin-left: 4px;
-        width: 250px;
     }
     #link, #export {
         margin-right: 10px;
@@ -261,12 +259,6 @@ body {
         /* mobile */
         float: left;
         margin-left: 4px;
-        width: 250px;
-    }
-
-
-    #link {
-        display: none;
     }
 }
 
@@ -276,15 +268,5 @@ body {
     #toolbar_container {
         /* mobile */
         height: 65px;
-    }
-    #toolbar {
-        /* mobile */
-        width: 250px;
-    }
-    #export {
-        display: none;
-    }
-    #link {
-        display: none;
     }
 }

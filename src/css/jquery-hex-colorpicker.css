@@ -51,16 +51,16 @@
 }
 
 .hex-color-picker-wrapper {
-    float: left;
     background: rgba(0, 0, 0, 0.9);
-    margin-top: 36px;
+    top: 41px;
     padding: 1em;
     border-radius: 0em 0em 1em 1em;
+    position: fixed;
 }
 
 @media only screen and (max-width: 600px) {
 	.hex-color-picker-wrapper {
-		margin-top: 12px;
+		top: 65px;
 	}
 
 	.button, #colors input#colorPicker {
