@@ -565,7 +565,10 @@ var pixelino = function () {
                     {
                         // reload image
                         clearTimeout(loadAreaTimeout);
-                        loadAreaTimeout = setTimeout(function(){loadZone(zoneX, zoneY, zoneX + "_" +zoneY);}, 5000);
+                        loadAreaTimeout = setTimeout(function(){
+                          loadZone(zoneX, zoneY, zoneX + "_" +zoneY);
+                          loadAreaTimeout=null;
+                        }, 5000);
 
                         hideAlert();
                     } else {
@@ -790,7 +793,14 @@ var pixelino = function () {
             mc.on("panleft panright panup pandown", function (ev) {
 
                 // move center
-                if (!loading) pixelino.setCenter(-ev.deltaX, ev.deltaY, false);
+                if (!loading){
+                  pixelino.setCenter(-ev.deltaX, ev.deltaY, false);
+                  if(loadAreaTimeout !==null){
+                    clearTimeout(loadAreaTimeout);
+                    loadAreaTimeout = null;
+                    loadZone(mouseZoneX, mouseZoneY, mouseZoneX + "_" +mouseZoneY);
+                  }
+                }
 
             });
             mc.on("panstart", function (ev) {
