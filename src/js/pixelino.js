@@ -538,7 +538,7 @@ var pixelino = function () {
                         loadAreaTimeout = setTimeout(function(){
                           loadZone(zoneX, zoneY, zoneX + "_" +zoneY);
                           loadAreaTimeout=null;
-                        }, 5000);
+                        }, 1000);
 
                         hideOverlay();
                     } else {
@@ -580,7 +580,7 @@ var pixelino = function () {
         swal({
             title: text,
             type: 'info',
-            html: "<p>" + inputText + "</p>",
+            html: "<a href=\"" + inputText + "\">" + inputText + "</a>",
             confirmButtonText: 'Ok'
         });
     };
