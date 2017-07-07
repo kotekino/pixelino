@@ -156,12 +156,12 @@ body {
 .button, #colors input {
     margin-right: 5px;
     float: left;
-    width: 20px;
+    width: 22px;
     height: 20px;
     border: 1px solid #eeeeee;
     cursor: pointer;
     margin-top: 4px;
-    border-radius: 5px;
+    border-radius: 50%;
 }
 
 #export {

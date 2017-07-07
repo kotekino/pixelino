@@ -1,35 +1,3 @@
-.hex-color-picker-wrapper {
-    float: left;
-    background: rgba(0, 0, 0, 0.9);
-    margin-top: 36px;
-    padding: 1em;
-    border-radius: 0em 0em 1em 1em;
-}
-
-@media only screen and (max-width: 600px) {
-	.hex-color-picker-wrapper {
-		margin-top: 32px;
-	}
-}
-
-@media only screen and (max-width: 460px) {
-	.hex-color-picker-wrapper {
-		margin-top: 32px;
-	}
-}
-
-@media only screen and (max-width: 355px) {
-	.hex-color-picker-wrapper {
-		margin-top: 32px;
-	}
-}
-
-@media only screen and (max-width: 305px) {
-	.hex-color-picker-wrapper {
-		margin-top: 32px;
-	}
-}
-
 .hex-color-picker-wrapper .color-block{
 	display:inline-block;
 }
@@ -60,7 +28,7 @@
 	top:0;
 	right:0;
 }
-.hex-color-picker-wrapper .picker-form input{
+.hex-color-picker-wrapper .picker-form input {
 	border: medium;
    border-radius: 0;
    font-size: 12px;
@@ -80,4 +48,23 @@
 
 .color-block {
 	cursor: pointer;
+}
+
+.hex-color-picker-wrapper {
+    float: left;
+    background: rgba(0, 0, 0, 0.9);
+    margin-top: 36px;
+    padding: 1em;
+    border-radius: 0em 0em 1em 1em;
+}
+
+@media only screen and (max-width: 600px) {
+	.hex-color-picker-wrapper {
+		margin-top: 12px;
+	}
+
+	.button, #colors input#colorPicker {
+		height: 40px;
+		width: 42px;
+	}
 }
