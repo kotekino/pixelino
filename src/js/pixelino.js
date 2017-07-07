@@ -793,8 +793,10 @@ var pixelino = function () {
             mc.on("panleft panright panup pandown", function (ev) {
 
                 // move center
+                if (!loading) pixelino.setCenter(-ev.deltaX, ev.deltaY, false);
+
+                // reload Zone
                 if (!loading){
-                  pixelino.setCenter(-ev.deltaX, ev.deltaY, false);
                   if(loadAreaTimeout !==null){
                     clearTimeout(loadAreaTimeout);
                     loadAreaTimeout = null;
@@ -845,6 +847,15 @@ var pixelino = function () {
                 // change zoom
                 if (!loading) pixelino.modifyZoom(delta, false);
 
+                // reload Zone
+                if (!loading) {
+                  if(loadAreaTimeout !==null){
+                    clearTimeout(loadAreaTimeout);
+                    loadAreaTimeout = null;
+                    loadZone(mouseZoneX, mouseZoneY, mouseZoneX + "_" +mouseZoneY);
+                  }
+                }
+
                 // stop moving
                 if (movingTimeout === 0) movingTimeout = setTimeout(function () { movingTimeout = 0; pixelino.modifyZoom(delta, true); updateUrl(); moving = false; }, 1000);
             });
@@ -870,6 +881,15 @@ var pixelino = function () {
 
                     // set zoom
                     if (!loading) pixelino.setZoom(scale, false);
+
+                    // reload Zone
+                    if (!loading){
+                      if(loadAreaTimeout !==null){
+                        clearTimeout(loadAreaTimeout);
+                        loadAreaTimeout = null;
+                        loadZone(mouseZoneX, mouseZoneY, mouseZoneX + "_" +mouseZoneY);
+                      }
+                    }
                 }
             });
             mc.on("pinchstart", function (ev) {
