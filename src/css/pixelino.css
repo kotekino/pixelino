@@ -1,13 +1,13 @@
 /*******************************************************************************/
 /*  FONTS
 /*******************************************************************************/
-* {
+/*div {
      user-select: none;
     -khtml-user-select: none;
     -o-user-select: none;
     -moz-user-select: -moz-none;
     -webkit-user-select: none;
-}
+}*/
 
 html {
     overflow: hidden;
@@ -74,14 +74,6 @@ body {
     padding-left: 22px;
 }
 
-.overlay_share_inputbox {
-    width: 210px;
-    margin-left: 10px;
-    margin-right: 10px;
-    border: 1px solid black;
-    z-index: 101;
-}
-
 #canvas_pixels {
     position: absolute;
     top:0;
@@ -141,7 +133,7 @@ body {
 #toolbar_container {
     position: absolute;
     width: 100%;
-    height: 41px;
+    height: 65px;
     background-color: rgba(0, 0, 0, 0.9);
     z-index: 99;
 }
@@ -152,37 +144,28 @@ body {
     padding-top: 5px;
     display: block;
 }
-.button, #colors input {
-    margin-right: 5px;
-    float: left;
-    width: 22px;
-    height: 20px;
-    border: 1px solid #eeeeee;
-    cursor: pointer;
-    margin-top: 4px;
-    border-radius: 50%;
-}
+
 
 #export {
-    margin-right: 7px;
+    margin-right: 10px;
     float: right;
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
-    margin-top: 5px;
+    margin-top: 8px;
     background: url('../img/export.png') center center no-repeat;
-    background-size: 20px 20px;
+    background-size: 40px 40px;
 }
 
 #link {
-    margin-right: 6px;
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    margin-top: 8px;
     float: right;
-    width: 20px;
-    height: 20px;
     cursor: pointer;
-    margin-top: 5px;
     background: url('../img/link.png') center center no-repeat;
-    background-size: 20px 20px;
+    background-size: 40px 40px;
 }
 
 #colors {
@@ -205,68 +188,9 @@ body {
 
 /* BREAKPOINTS */
 
-/* TWO LINES COLORS, LEFT ALIGNED */
-@media only screen and (max-width: 600px) {
-    /* Styles */
-    #toolbar_container {
-        /* mobile */
-        height: 65px;
-    }
-    #toolbar {
-        /* mobile */
-        float: left;
-        margin-left: 4px;
-    }
-    #link, #export {
-        margin-right: 10px;
-        width: 40px;
-        height: 40px;
-        margin-top: 13px;
-        background-size: 40px 40px;
-    }
-}
-
-/* TWO LINES COLORS, LEFT ALIGNED */
-@media only screen and (max-width: 460px) {
-    /* Styles */
-    #toolbar_container {
-        /* mobile */
-        height: 65px;
-    }
-    #toolbar {
-        /* mobile */
-        float: left;
-        margin-left: 4px;
-    }
-    #link, #export {
-        margin-right: 10px;
-        width: 40px;
-        height: 40px;
-        margin-top: 13px;
-        background-size: 40px 40px;
-    }
-}
-
-/* TWO LINES COLORS, LEFT ALIGNED, NO LINK */
-@media only screen and (max-width: 355px) {
-    /* Styles */
-    #toolbar_container {
-        /* mobile */
-        height: 65px;
-    }
-
-    #toolbar {
-        /* mobile */
-        float: left;
-        margin-left: 4px;
-    }
-}
-
 /* TWO LINES COLORS, NO LINK, NO EXPORT */
-@media only screen and (max-width: 305px) {
-    /* Styles */
-    #toolbar_container {
-        /* mobile */
-        height: 65px;
+@media only screen and (max-width: 152px) {
+    #link, #export {
+        display: none;
     }
 }
