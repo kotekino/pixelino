@@ -41,34 +41,6 @@ var urlParams;
         urlParams[decode(match[1])] = decode(match[2]);
 })();
 
-// copy to clipboard
-var CopyToClipboard = function (text, fallback) {
-    var fb = function () {
-        $t.remove();
-        if (fallback !== undefined && fallback) {
-            var fs = 'Please, copy the following text:';
-            if (window.prompt(fs, text) !== null) return true;
-        }
-        return false;
-    };
-    var $t = $('<textarea />');
-    $t.val(text).css({
-        position: 'fixed',
-        left: '-10000px'
-    }).appendTo('body');
-    $t.select();
-    try {
-        if (document.execCommand('copy')) {
-            $t.remove();
-            return true;
-        }
-        fb();
-    }
-    catch (e) {
-        fb();
-    }
-};
-
 // pixelino client
 var pixelino = function () {
 
@@ -175,8 +147,7 @@ var pixelino = function () {
     function loadAndPrintAll(callback, failcallback) {
 
         // main loading flag
-        $("#info").html('<p>LOADING</p>');
-        $("#main_overlay").show();
+        showOverlay("loading");
         loading = true;
 
         // get all zones (with current zoom settings)
@@ -217,7 +188,7 @@ var pixelino = function () {
 
     // load single image
     function loadZone(x, y, zone) {
-        $("#info").html('<p>LOADING</p>');
+        showOverlay("loading");
         loading = true;
 
         var url = API_URL_ZONES + zone + "/" + new Date().getTime();
@@ -239,7 +210,7 @@ var pixelino = function () {
             printZone(newX, newY, image);
 
             // reset loading
-            $("#info").html('');
+            hideOverlay();
             loading = false;
         };
     }
@@ -270,8 +241,7 @@ var pixelino = function () {
         if (loadAll) {
             // load and print
             loadAndPrintAll(function (data) {
-                $("#info").html('');
-                $("#main_overlay").hide();
+                hideOverlay();
                 loading = false;
             });
         } else {
@@ -570,16 +540,19 @@ var pixelino = function () {
                           loadAreaTimeout=null;
                         }, 5000);
 
-                        hideAlert();
+                        hideOverlay();
                     } else {
-                        showOverlay(responseData);
-                        setTimeout(function () { hideAlert(); }, 1000);
+                        swal(
+                          'Oops...',
+                          'Reserved area, try somewhere else...',
+                          'error'
+                        )
+                        setTimeout(function () { hideOverlay(); }, 1000);
                     }
-
                 },
                 error: function (errorData) {
                     console.log("error: " + errorData);
-                    hideAlert();
+                    hideOverlay();
                 }
             });
         }
@@ -592,24 +565,24 @@ var pixelino = function () {
 
     // show overlay alert
     var showOverlay = function (text) {
-        $("#main_overlay").html("<div id=\"main_overlay_alert\"><p class=\"overlay_alert_title\">" + text + "</p></div>");
+        $("#info").html('<p>' + text + '</p>');
         $("#main_overlay").show();
+    };
+
+    // hide overlay alert
+    var hideOverlay = function () {
+        $("#info").html('');
+        $("#main_overlay").hide();
     };
 
     // show overlay alert
     var linkOverlay = function (text, inputText) {
-        $("#main_overlay").html("<div id=\"main_overlay_alert\"><div class=\"main_overlay_close\">x</div><p class=\"overlay_share_title\">" + text + "</p><input class=\"overlay_share_inputbox\" type='text' value='" + inputText + "' /></div>");
-        $("#main_overlay").show();
-
-        $(".main_overlay_close").click(function () {
-            hideAlert();
+        swal({
+            title: text,
+            type: 'info',
+            html: "<p>" + inputText + "</p>",
+            confirmButtonText: 'Ok'
         });
-    };
-
-    // hide overlay alert
-    var hideAlert = function () {
-        $("#main_overlay").html('');
-        $("#main_overlay").hide();
     };
 
     // update url
@@ -626,7 +599,7 @@ var pixelino = function () {
 
     // print color palette
     var printColors = function () {
-        $("#colors").html('<input type="text" id="colorPicker" />');
+        $("#colors").html('<input onfocus=\"blur();\" type="text" id="colorPicker" />');
         $("#colorPicker").css("background-color", "rgba(" + currentColor.red + ", " + currentColor.green + ", " + currentColor.blue + ", " + currentColor.opacity + ")");
         $("#colorPicker").on('keyup', function(){$("#colorPicker").val('');});
         jQuery("#colorPicker").hexColorPicker({
