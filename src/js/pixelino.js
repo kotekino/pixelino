@@ -53,7 +53,7 @@ var CopyToClipboard = function (text, fallback) {
     };
     var $t = $('<textarea />');
     $t.val(text).css({
-        position: 'fixed', 
+        position: 'fixed',
         left: '-10000px'
     }).appendTo('body');
     $t.select();
@@ -123,121 +123,8 @@ var pixelino = function () {
     var mouseZoneY = 0;
     var imageArray = new Array();
 
-    // palette
-    var pickers = new Array();
-    var palette = [
-        {
-            red: 0,
-            green: 0,
-            blue: 0,
-            opacity: 1
-        },
-        {
-            red: 96,
-            green: 96,
-            blue: 96,
-            opacity: 1
-        },
-        {
-            red: 128,
-            green: 128,
-            blue: 128,
-            opacity: 1
-        },
-        {
-            red: 192,
-            green: 192,
-            blue: 192,
-            opacity: 1
-        },
-        {
-            red: 255,
-            green: 255,
-            blue: 255,
-            opacity: 1
-        },
-        {
-            red: 255,
-            green: 100,
-            blue: 0,
-            opacity: 1
-        },
-        {
-            red: 255,
-            green: 0,
-            blue: 0,
-            opacity: 1
-        },
-        {
-            red: 100,
-            green: 50,
-            blue: 1,
-            opacity: 1
-        },
-        {
-            red: 255,
-            green: 255,
-            blue: 0,
-            opacity: 1
-        },
-        {
-            red: 0,
-            green: 128,
-            blue: 0,
-            opacity: 1
-        },
-        {
-            red: 0,
-            green: 255,
-            blue: 0,
-            opacity: 1
-        },
-        {
-            red: 253,
-            green: 197,
-            blue: 12,
-            opacity: 1
-        },
-        {
-            red: 0,
-            green: 255,
-            blue: 255,
-            opacity: 1
-        },
-        {
-            red: 0,
-            green: 0,
-            blue: 128,
-            opacity: 1
-        },
-        {
-            red: 0,
-            green: 0,
-            blue: 255,
-            opacity: 1
-        },
-        {
-            red: 128,
-            green: 0,
-            blue: 128,
-            opacity: 1
-        },
-        {
-            red: 255,
-            green: 0,
-            blue: 255,
-            opacity: 1
-        },
-        {
-            red: 255,
-            green: 178,
-            blue: 216,
-            opacity: 1
-        }
-    ];
-
     // current color
-    var currentColor = palette[0];
+    var currentColor = {red: 0, green: 0, blue: 0, opacity: 1};
 
     // interaction mode (draw)
     var mode = "draw"; // [draw]
@@ -251,26 +138,10 @@ var pixelino = function () {
     // movement
     var moving = false;
 
-    // style change for color
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutationRecord) {
-
-            var id = mutationRecord.target.id;
-            var palette_id = id.replace('color_','');
-
-            red = parseInt(pickers[id].rgb[0]);
-            green = parseInt(pickers[id].rgb[1]);
-            blue = parseInt(pickers[id].rgb[2]);
-
-            currentColor = {red: red, green: green, blue: blue, opacity: 1};
-            palette[palette_id] = currentColor;
-        });    
-    }); 
-
     // *********************************************************************
     // LOAD METHODS
     // *********************************************************************
-    
+
     // print preloaded images
     function printAll(loadMissingZone) {
 
@@ -743,21 +614,26 @@ var pixelino = function () {
 
     // print color palette
     var printColors = function () {
-        $("#colors").html('');
-        $.each(palette, function (index, value) {
-            var selectedClass = "";
-            if (value === currentColor) selectedClass = "selected";
-            $("#colors").append("<div class=\"button jscolor colors " + selectedClass + "\" style=\"background-color: rgba(" + value.red + "," + value.green + "," + value.blue + "," + value.opacity + ")\" class=\"button\" id=\"color_" + index + "\"></div>");
-
-            // store pickers
-            var input = $("#color_" + index)[0];
-            var picker = new jscolor(input, { closable: true, showOnClick: false, required: false, valueElement: null});
-            picker.fromRGB(value.red, value.green, value.blue);
-            pickers["color_" + index] = picker;
-            observer.observe(input, { attributes : true, attributeFilter : ['style'] });
-
+        $("#colors").html('<input type="text" id="colorPicker" />');
+        $("#colorPicker").on('keyup', function(){$("#colorPicker").val('');});
+        jQuery("#colorPicker").hexColorPicker({
+          colorizeTarget: true,
+          outputFormat: "",
+          submitCallback: function(hex){
+            currentColor = hexToColor("#" + hex);
+          }
         });
     };
+
+    var hexToColor = function (hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            red: parseInt(result[1], 16),
+            green: parseInt(result[2], 16),
+            blue: parseInt(result[3], 16),
+            opacity: 1
+        } : null;
+    }
 
     // save image
     var saveImageAsPng = function (name, address) {
@@ -765,7 +641,7 @@ var pixelino = function () {
         link.style = 'position: fixed; left -10000px;'; // making it invisible
         link.href = 'data:application/octet-stream,' + encodeURIComponent(address); // forcing content type
         link.download = name.indexOf('.png') < 0 ? name + '.png' : name;
-        
+
         // append, click and remove
         document.body.appendChild(link);
         link.click();
@@ -776,7 +652,8 @@ var pixelino = function () {
     var initInterface = function () {
 
         // create css entry
-        $('head').append('<link rel="stylesheet" href="js/pixelino.css" type="text/css" />');
+        $('head').append('<link rel="stylesheet" href="css/pixelino.css" type="text/css" />');
+        $('head').append('<link rel="stylesheet" href="css/jquery-hex-colorpicker.css" type="text/css" />');
 
         // create toolbar element
         toolbarElement = document.createElement("div");
@@ -850,24 +727,6 @@ var pixelino = function () {
         document.body.appendChild(mainOverlayElement);
         mainOverlayElement.id = "main_overlay";
 
-        // assign color
-        $(".colors").click(function () {
-            mode = "draw";
-            var id = this.id.replace("color_", "");
-
-            // open picker on second click
-            if ($(this).hasClass("selected")) {
-                // open picker
-                pickers[this.id].show();
-            }
-
-            $(".colors").removeClass("selected");
-            currentColor = palette[id];
-
-            $("#canvas_selection").addClass("draw").removeClass("move");
-            $(this).addClass("selected");
-        });
-
         // clear selected pixel
         $("#status").mouseover(function () {
             clearSelectedPixel();
@@ -921,7 +780,7 @@ var pixelino = function () {
 
                 // move center
                 if (!loading) pixelino.setCenter(-ev.deltaX, ev.deltaY, false);
-                
+
             });
             mc.on("panstart", function (ev) {
                 // mouse cursor
@@ -964,8 +823,8 @@ var pixelino = function () {
 
                 // change zoom
                 if (!loading) pixelino.modifyZoom(delta, false);
-                
-                // stop moving 
+
+                // stop moving
                 if (movingTimeout === 0) movingTimeout = setTimeout(function () { movingTimeout = 0; pixelino.modifyZoom(delta, true); updateUrl(); moving = false; }, 1000);
             });
 
@@ -1003,7 +862,7 @@ var pixelino = function () {
             mc.on("pinchend", function (ev) {
                 // mouse cursor
                 $('html,body').css('cursor', 'default');
-                
+
                 pixelino.setCenter(-ev.deltaX, ev.deltaY, true);
                 pixelino.setZoom(scale, true);
                 pixelino.storeSettings();
@@ -1053,7 +912,7 @@ var pixelino = function () {
 
             // zoom
             zoom = zoom * scale;
-                
+
             // prevent negative zoom
             if (zoom < 1) zoom = 1;
             if (zoom > 300) zoom = 300;
