@@ -48,7 +48,7 @@ var pixelino = function () {
     // CLASS VARIABLES
     // *********************************************************************
 
-    // mac
+    // platforms
     var isMac = navigator.platform.toUpperCase().indexOf('MAC') !== -1;
     var isWindows = navigator.platform.toUpperCase().indexOf('WIN') !== -1;
     var isLinux = navigator.platform.toUpperCase().indexOf('LINUX') !== -1;
@@ -524,10 +524,25 @@ var pixelino = function () {
             printPixel(getCanvasX(mouseX), getCanvasY(mouseY), currentColor.red, currentColor.green, currentColor.blue, currentColor.opacity);
 
             // ajax submit
-            $.support.cors=true;
+            $.support.cors = true;
+
+            // build request data
+            var requestData = {
+                x: mouseX,
+                y: mouseY,
+                red: currentColor.red,
+                green: currentColor.green,
+                blue: currentColor.blue,
+                opacity: currentColor.opacity,
+                zoneX: zoneX,
+                zoneY: zoneY,
+                hash: CLIENT_HASH
+            }
+
             $.ajax({
-                url: API_URL_BASE + API_URL_SET_PIXEL + "?x=" + mouseX + "&y=" + mouseY + "&red=" + currentColor.red + "&green=" + currentColor.green + "&blue=" + currentColor.blue + "&opacity=" + currentColor.opacity + "&zoneX=" + zoneX + "&zoneY=" + zoneY,
+                url: API_URL_BASE + API_URL_SET_PIXEL, 
                 method: "POST",
+                data: JSON.stringify(requestData),
                 contentType: "application/json",
                 success: function (responseData) {
 
@@ -551,7 +566,6 @@ var pixelino = function () {
                     }
                 },
                 error: function (errorData) {
-                    console.log("error: " + errorData);
                     hideOverlay();
                 }
             });
