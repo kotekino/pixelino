@@ -9,6 +9,6 @@ https://www.reddit.com/r/PlaceRewritten/comments/6lkqyk/httppixelinokotekinocom_
 <br /><br /><br />
 
 
-Official web-client:
-http://pixelino.xyz
+Official web-client:<br />
+http://pixelino.xyz<br />
 http://pixelino.kotekino.com
