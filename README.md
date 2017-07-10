@@ -6,3 +6,9 @@ Just another shared canvas
 
 Follow evolutions on Reddit:
 https://www.reddit.com/r/PlaceRewritten/comments/6lkqyk/httppixelinokotekinocom_just_another_shared_canvas/
+<br /><br /><br />
+
+
+Official web-client:
+http://pixelino.xyz
+http://pixelino.kotekino.com
