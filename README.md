@@ -1,4 +1,4 @@
-## <a href="http://pixelino.kotekino.com">pixelino (beta)</a>
+## <a href="http://pixelino.kotekino.com">pixelino XYZ</a>
 Just another shared canvas
 <img src="https://raw.githubusercontent.com/kotekino/pixelino/master/img/logo.png" align="left"> 
 <br /><br /><br />
