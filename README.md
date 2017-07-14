@@ -12,3 +12,6 @@ https://www.reddit.com/r/PlaceRewritten/comments/6lkqyk/httppixelinokotekinocom_
 Official web-client:<br />
 http://pixelino.xyz<br />
 http://pixelino.kotekino.com
+
+Official android client:<br />
+https://play.google.com/store/apps/details?id=com.kotekino.games.pixelino
