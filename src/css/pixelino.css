@@ -1,5 +1,5 @@
 /*******************************************************************************/
-/*  FONTS
+/*  HTML ELEMENTS
 /*******************************************************************************/
 div {
      user-select: none;
@@ -7,36 +7,100 @@ div {
     -o-user-select: none;
     -moz-user-select: -moz-none;
     -webkit-user-select: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
 }
-
+textarea {
+    -moz-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+input:focus, select:focus,textarea:focus, button:focus {
+    outline: none;
+}
+input, textarea {
+    border-radius: 0;
+}
 html {
     overflow: hidden;
     width: 100%;
     height: 100%;
 }
-
+canvas {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
 body {
-  height: 100%;
-  padding: 0;
-  overflow: hidden;
-  margin: 0;
-  -webkit-overflow-scrolling: touch;
-  -moz-transform: scale(1);
-  -webkit-transform: scale(1);
-  -o-transform: scale(1);
-  -ms-transform: scale(1);
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    margin: 0;
+    -webkit-overflow-scrolling: touch;
+    -moz-transform: scale(1);
+    -webkit-transform: scale(1);
+    -o-transform: scale(1);
+    -ms-transform: scale(1);
+}
+
+#splashscreen {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    left: 0px;
+    top: 0px;
+    background-color: white;
+    z-index: 12;
+}
+
+#splashscreen_content {
+    position:absolute;
+    width: 200px;
+    height: 200px;
+    left:0; right:0;
+    top:0; bottom:0;
+    margin:auto;
+    max-width:100%;
+    max-height:100%;
+    overflow:auto;
+
+    -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 2s; /* Firefox < 16 */
+        -ms-animation: fadein 2s; /* Internet Explorer */
+         -o-animation: fadein 2s; /* Opera < 12.1 */
+            animation: fadein 2s;
+
+    background: url("../img/logo.png") center center no-repeat;
+}
+
+#splashscreen_content p {
+    margin-top: 150px;
+    font-size: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    color: #000000;
+    text-align: center;
+}
+
+#splashscreen_content p a {
+    text-decoration: none;
+    color: darkcyan;
+    font-weight: bold;
 }
 
 #main_overlay {
+    position: fixed;
     top: 0;
     left: 0;
-    position: fixed;
-    z-index: 100;
+    z-index: 10;
     display: none;
 }
-
 #main_overlay_alert {
-    position:fixed; /* change this to fixed */
+    position: fixed; 
     top: 50%;
     left: 50%;
     margin-top: -40px;
@@ -53,7 +117,6 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
     text-align: center;
 }
-
 .main_overlay_close {
     float: right;
     width: 20px;
@@ -62,18 +125,15 @@ body {
     margin-top: 2px;
     cursor: pointer;
 }
-
 .overlay_alert_title {
     position: absolute;
     width: 250px;
     margin-top: 28px;
 }
-
 .overlay_share_title {
     margin-top: 10px;
     padding-left: 22px;
 }
-
 #canvas_pixels {
     position: absolute;
     top:0;
@@ -84,31 +144,133 @@ body {
     position: absolute;
     top:0;
     left:0;
-    z-index: 10;
+    z-index: 6;
 }
 #canvas_selection {
     position: absolute;
     top:0;
     left:0;
-    z-index: 11;
+    z-index: 7;
+}
+#status_bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 8;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.9);
 }
 #status {
     position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
-    z-index: 99;
+    z-index: 8;
     height: 20px;
-    background-color: rgba(0, 0, 0, 0.9);
     text-align: center;
 }
+
+#comm_container {
+    position: absolute;
+    left: 0;
+    bottom: 20px;
+    width: 100%;
+    z-index: 8;
+    height: 20px;
+}
+
+#toggle_com {
+    position: absolute;
+    color: yellow;
+    font-size: 8px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    cursor: pointer;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    top: 0px;
+    padding: 0;
+    padding-left: 5px;
+    padding-top: 4px;
+}
+
+#last_message {
+    position: absolute;
+    font-size: 9px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    color: chartreuse;
+    cursor: pointer;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    top: 0px;
+    left: 40px;
+    padding: 0;
+    padding-top: 3px;
+}
+
+#users_online {
+    position: absolute;
+    color: yellow;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    cursor: pointer;
+    height: 14px;
+    margin: 0;
+    right: 0px;
+    padding: 0;
+    top: 0px;
+    padding: 0;
+    padding-right: 5px;
+    padding-top: 3px;
+}
+
+#comm_messages { 
+    position: absolute;
+    display: none;
+    width: 100%;
+    height: 117px;
+    background-color: black;
+    font-size: 9px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    color: chartreuse;
+    border: none;
+    bottom: 23px;
+    margin: 0;
+}
+
+#comm_input {
+    position: absolute;
+    display: none;
+    height: 20px;
+    background-color: black;
+    color: white;
+    font-size: 9px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    border: none;
+    margin: 0;
+    padding: 0;
+    padding-left: 5px;
+    bottom: 0px;
+    z-index: 11;
+}
+
+.comm_item {
+    padding: 0;
+    padding-left: 5px;
+    margin: 0;
+}
+
 
 #info {
     position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
-    z-index: 99;
+    z-index: 8;
     height: 20px;
     text-align: center;
 }
@@ -135,7 +297,7 @@ body {
     width: 100%;
     height: 65px;
     background-color: rgba(0, 0, 0, 0.9);
-    z-index: 99;
+    z-index: 9;
 }
 
 #toolbar {
@@ -145,31 +307,59 @@ body {
     display: block;
 }
 
+.rightButtons {
+    margin-right: 3px;
+    float: right;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-top: 13px;
+    border-radius: 10%;
+    z-index: 11;
+}
+
+#home {
+    background: url('../img/home.svg') center center no-repeat;
+    background-color: black;
+    background-size: 30px 30px;
+}
+
+#exit {
+    background: url('../img/exit.svg') center center no-repeat;
+    background-color: black;
+    background-size: 30px 30px;
+    margin-right: 15px;
+}
 
 #export {
-    margin-right: 10px;
-    float: right;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    margin-top: 8px;
-    background: url('../img/export.png') center center no-repeat;
-    background-size: 40px 40px;
+    background: url('../img/download.svg') center center no-repeat;
+    background-color: black;
+    background-size: 30px 30px;
 }
 
 #link {
-    margin-right: 10px;
+    background: url('../img/link.svg') center center no-repeat;
+    background-color: black;
+    background-size: 30px 30px;
+}
+
+#star {
+    position: absolute;
     width: 40px;
     height: 40px;
-    margin-top: 8px;
-    float: right;
-    cursor: pointer;
-    background: url('../img/link.png') center center no-repeat;
+    margin-left: 10px;
+    left: 0px;
+    top: 75px;
+    background: url('../img/star.svg') center center no-repeat;
     background-size: 40px 40px;
+    border-radius: 50px;
+    z-index: 8;
+    cursor: pointer;
 }
 
 #colors {
     margin-left: 5px;
+    z-index: 11;
 }
 
 .selected {
@@ -186,6 +376,32 @@ body {
     cursor: move;
 }
 
+.users {
+    position: absolute;
+    font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    font-weight: normal;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(128, 128, 128, 1);
+    z-index: 6;
+    border: 1px solid black;
+    background-color: green;
+    border-radius: 8px;
+    padding: 5px;
+    padding-top: 4px;
+}
+
+.default_colors {
+    float: left;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    border: 1px solid white;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-top: 12px;
+}
+
 /* BREAKPOINTS */
 
 /* TWO LINES COLORS, NO LINK, NO EXPORT */
@@ -193,4 +409,35 @@ body {
     #link, #export {
         display: none;
     }
+}
+
+
+/* ANIMATIONS */
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
