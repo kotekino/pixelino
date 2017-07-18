@@ -8,43 +8,26 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <meta http-equiv="Content-Security-Policy" content="script-src https://cdnjs.cloudflare.com 'self'">
         <link rel="shortcut icon" href="img/logo.png" />
 
         <!-- LIBRARIES -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" integrity="sha256-eVNjHw5UeU0jUqPPpZHAkU1z4U+QFBBY488WvueTm88=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.min.js" integrity="sha384-MFgZ9YomJVl3bIFRMd16kyTDDI+ZyxNa2MIs0y/CMKSv88J6xGMbDqx2ifea+J7k" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.css" integrity="sha384-8uHgp/P0y93HKiegiDs8mlG16tNzeZkFAUKGJnnMUwGYpU82JgjpBH1+hJbnU1ZW" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js" integrity="sha384-Ltf3zlo018jgSFarBV4ZXF8GxwymfafIj3qWz3rrjhL8hTVd2XzglHH+BCuIKnbk" crossorigin="anonymous"></script>
 
         <!-- LOCAL LIBRARIES -->
         <script type="text/javascript" src="js/jquery-hex-colorpicker.js"></script>
         <script type="text/javascript" src="js/client.js"></script>
         <script type="text/javascript" src="js/pixelino.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
 
         <!-- CORDOVA INCLUSION -->
-        <!--script type="text/javascript" charset="utf-8" src="cordova.js"><script-->
+        <!--script type="text/javascript" charset="utf-8" src="cordova.js"></!--script-->
     </head>
     <body style="display: none;">
-
-        <!-- business logic and API calls -->
-        <script>
-
-            $(document).ready(function () {
-
-                // add listeners
-                centerX = 0;
-                centerY = 0;
-                zoom = 4;
-                grid = 1;
-
-                // load canvas, otherwise error
-                pixelino.init(centerX, centerY, zoom, grid, function (canvasElement) {
-
-                });
-            })
-
-        </script>
 
     </body>
 </html>
