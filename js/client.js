@@ -1,0 +1,1 @@
+var CLIENT_HASH = "web";
