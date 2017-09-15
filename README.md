@@ -14,7 +14,6 @@ https://itunes.apple.com/us/app/pixelino-xyz/id1257020362?mt=8
 
 Follow evolutions on Reddit:<br />
 https://www.reddit.com/r/PlaceRewritten/comments/6lkqyk/httppixelinokotekinocom_just_another_shared_canvas/
-<br /><br /><br />
 
 Facebook:<br />
 https://facebook.com/kotekino
