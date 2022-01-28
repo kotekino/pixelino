@@ -9,7 +9,7 @@ http://pixelino.xyz<br />
 Official android client:<br />
 https://play.google.com/store/apps/details?id=com.kotekino.games.pixelino
 
-Official iOS client:<br />
+Official iOS client (currently discontinued):<br />
 https://itunes.apple.com/us/app/pixelino-xyz/id1257020362?mt=8
 
 Follow evolutions on Reddit:<br />
