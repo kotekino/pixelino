@@ -6,10 +6,10 @@ Just another shared canvas
 Official web-client:<br />
 http://pixelino.xyz<br />
 
-Official android client:<br />
+Official android client (delisted):<br />
 https://play.google.com/store/apps/details?id=com.kotekino.games.pixelino
 
-Official iOS client (delisted):<br />
+Official iOS client (also delisted):<br />
 https://itunes.apple.com/us/app/pixelino-xyz/id1257020362?mt=8
 
 Follow evolutions on Reddit:<br />
