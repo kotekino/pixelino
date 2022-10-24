@@ -4,7 +4,7 @@ Just another shared canvas
 <br /><br /><br />
 
 Official web-client:<br />
-http://pixelino.xyz<br />
+http://pixelino.xyz (old) https://pixelino.azurewebsites.net (new)<br />
 
 Official android client (delisted):<br />
 https://play.google.com/store/apps/details?id=com.kotekino.games.pixelino
